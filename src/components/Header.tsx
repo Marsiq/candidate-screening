@@ -1,10 +1,11 @@
 import React from "react";
+import {Typography} from "@material-ui/core";
 
 const Header = () => {
     return(
-        <header>
-            <h1>To Do List</h1>
-        </header>
+        <Typography variant={"h2"} component={"h3"}>
+            TO DO LIST
+        </Typography>
     )
 };
 

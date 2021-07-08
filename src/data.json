@@ -25,7 +25,8 @@
 }, {
   "id": 7,
   "task": "Fill gas tank",
-  "complete": true
+  "complete": true,
+  "endDate": "2021-08-24T10:30"
 }, {
   "id": 8,
   "task": "Change linens",
@@ -33,7 +34,8 @@
 }, {
   "id": 9,
   "task": "Rake leaves",
-  "complete": true
+  "complete": true,
+  "endDate": "2020-08-24T11:30"
 }, {
   "id": 10,
   "task": "Bake Cookies",
