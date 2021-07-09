@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import React from "react";
 import {
     createStyles,
     IconButton,
@@ -10,11 +10,9 @@ import {
     withStyles
 } from "@material-ui/core";
 import {IDataObject} from "../../App";
-import EditIcon from "@material-ui/icons/Edit"
 import ErrorIcon from "@material-ui/icons/Error"
 import CheckIcon from "@material-ui/icons/Check"
 import {green} from "@material-ui/core/colors";
-import RemoveCircleIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 interface IStyledTableRowProps {
     element: IDataObject,
@@ -42,7 +40,7 @@ const StyledTableRow = (props: IStyledTableRowProps) => {
     return (
        <TableRow key={props.element.id} hover={true}>
            <StyledTitleTableCell align={"center"}>{props.element.task}</StyledTitleTableCell>
-           <StyledTitleTableCell align={"right"}>
+           <StyledTitleTableCell align={"center"}>
                <TextField
                    id="datetime-local"
                    label="Due date"

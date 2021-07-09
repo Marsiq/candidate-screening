@@ -1,10 +1,10 @@
 import './App.css';
 import Header from "./components/Header";
 import data from "./data.json";
-import {useState} from "react";
+import React, {useState} from "react";
 import {
     Backdrop, Button,
-    createStyles, Dialog, DialogTitle,
+    createStyles, Dialog, DialogContent, DialogTitle,
     Grid, IconButton,
     makeStyles,
     TableBody,
@@ -19,12 +19,13 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 import Table from '@material-ui/core/Table';
 import {green} from "@material-ui/core/colors";
 import StyledTableRow from "./components/tableComponents/StyledTableRow"
+import CustomDialog from "./components/CustomDialog";
 
 export interface IDataObject {
     id: number,
     task: string,
     complete: boolean,
-    endDate?: Date | string
+    endDate?: string
 }
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -42,8 +43,9 @@ function App() {
     //TODO: Add an ability to create a due date for each task. The end user should be able to pick or enter a date for each todo item. Show off your design skill to make it easy and intuitive for user to use your app
 
     const [toDoList, setToDoList] = useState<Array<IDataObject>>(data);
-    const [isBackdropOpen, setBackdropOpen] = useState<boolean>(false);
+    const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
     const [inputTextFieldValue, setInputTextFieldValue] = useState<string>("");
+    const [inputDatePickerDialogValue, setInputDatePickerDialogValue] = useState<string>("");
 
     const removeCompletedElements = () =>{
       const currentStatus = [...toDoList];
@@ -60,11 +62,13 @@ function App() {
         setToDoList(currentStatus);
     };
 
-    const handleBackdropToggle = () => {
-      setBackdropOpen(!isBackdropOpen)
+    const handleDialogToggle = () => {
+        setInputTextFieldValue("");
+        setInputDatePickerDialogValue("");
+      setDialogOpen(!isDialogOpen)
     };
 
-    const handleOnBlur = (value: string) => {
+    const handleInputTextFieldOnBlur = (value: string) => {
         setInputTextFieldValue(value)
     };
 
@@ -73,12 +77,12 @@ function App() {
         const createdTask = {
             id: currentState.length + 2,
             task: inputTextFieldValue ? inputTextFieldValue : "Undefined Task",
-            complete: false
+            complete: false,
+            endDate: inputDatePickerDialogValue
         };
         currentState.push(createdTask);
-        setInputTextFieldValue("");
         setToDoList(currentState);
-        handleBackdropToggle()
+        handleDialogToggle()
     };
 
     const handleDateChange = (elementId: number, endDate: string) => {
@@ -91,13 +95,13 @@ function App() {
 
     return (
         <div className="App">
-            <Dialog  open={isBackdropOpen} onClose={handleBackdropToggle}>
-                <DialogTitle id="simple-dialog-title">Add ToDo item:</DialogTitle>
-                <TextField label="Name of task: " onBlur={(event)=>handleOnBlur(event.target.value)} style={{marginBottom: 20}}/>
-                <Button variant="contained" color="primary" onClick={()=>saveTask()}>
-                    Insert task
-                </Button>
-            </Dialog >
+            <CustomDialog
+                saveTask={saveTask}
+                handleInputTextFieldOnBlur={handleInputTextFieldOnBlur}
+                setInputDatePickerDialogValue={setInputDatePickerDialogValue}
+                isDialogOpen={isDialogOpen}
+                handleDialogToggle={handleDialogToggle}
+            />
             <Grid
                 container
                 direction="row"
@@ -111,7 +115,7 @@ function App() {
                 <Grid item sm={2}/>
                 <Grid item sm={2}/>
                 <Grid item sm={4} xs={12} alignItems={'center'}>
-                    <IconButton onClick={handleBackdropToggle}>
+                    <IconButton onClick={handleDialogToggle}>
                         <Typography>ADD ELEMENT</Typography>
                         <AddCircleIcon fontSize={"large"} style={{color: green[500]}}/>
                     </IconButton>
