@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -74,7 +74,8 @@ const CustomDialog = (props: ICustomDialogProps) => {
                     Add ToDo item:
                 </DialogTitle>
                 <DialogContent dividers>
-                    <Grid item sm={12} alignItems={'center'}>
+                    <Grid container alignItems={'center'}>
+                    <Grid item sm={12}>
                     <TextField label="Name of task: " onBlur={(event)=>props.handleInputTextFieldOnBlur(event.target.value)} style={{marginBottom: 20}}/>
                     </Grid>
                     <Grid item sm={12}>
@@ -88,6 +89,7 @@ const CustomDialog = (props: ICustomDialogProps) => {
                         }}
                         onBlur={event => props.setInputDatePickerDialogValue(event.target.value)}
                     />
+                    </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>

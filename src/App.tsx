@@ -3,14 +3,12 @@ import Header from "./components/Header";
 import data from "./data.json";
 import React, {useState} from "react";
 import {
-    Backdrop, Button,
-    createStyles, Dialog, DialogContent, DialogTitle,
+    createStyles,
     Grid, IconButton,
-    makeStyles,
     TableBody,
     TableCell,
     TableHead,
-    TableRow, TextField,
+    TableRow,
     Theme, Typography,
     withStyles
 } from "@material-ui/core";
@@ -21,7 +19,15 @@ import {green} from "@material-ui/core/colors";
 import StyledTableRow from "./components/tableComponents/StyledTableRow"
 import CustomDialog from "./components/CustomDialog";
 
-export interface IDataObject {
+interface IDataObject {
+    id: number,
+    task: string,
+    complete: boolean,
+    endDate?: string
+}
+
+export interface ITodoListObject {
+    key: number,
     id: number,
     task: string,
     complete: boolean,
@@ -38,19 +44,26 @@ const StyledTableCell = withStyles((theme: Theme) =>
     }),
 )(TableCell);
 
+const generateKeysForList = (data: Array<IDataObject>) :Array<ITodoListObject> => {
+    const toDoList = new Array<ITodoListObject>();
+    data.forEach(element => toDoList.push({key: element.id, id: element.id, task: element.task, complete: element.complete, endDate: element.endDate}));
+    return toDoList;
+};
+
 function App() {
 
     //TODO: Add an ability to create a due date for each task. The end user should be able to pick or enter a date for each todo item. Show off your design skill to make it easy and intuitive for user to use your app
 
-    const [toDoList, setToDoList] = useState<Array<IDataObject>>(data);
+    const [toDoList, setToDoList] = useState<Array<ITodoListObject>>(generateKeysForList(data));
+    const [filteredList, setFilteredList] = useState<Array<ITodoListObject>>([]);
     const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
     const [inputTextFieldValue, setInputTextFieldValue] = useState<string>("");
     const [inputDatePickerDialogValue, setInputDatePickerDialogValue] = useState<string>("");
 
-    const removeCompletedElements = () =>{
-      const currentStatus = [...toDoList];
+    const removeCompletedElements = (currentState: Array<ITodoListObject>) =>{
+      const currentStatus = [...currentState];
       const filteredStatus = currentStatus.filter(element => {return !element.complete});
-      setToDoList(filteredStatus)
+      setFilteredList(filteredStatus)
     };
 
     const toggleStatus = (elementId: number) =>{
@@ -75,6 +88,7 @@ function App() {
     const saveTask = () => {
         const currentState = [...toDoList];
         const createdTask = {
+            key: currentState.length + 2,
             id: currentState.length + 2,
             task: inputTextFieldValue ? inputTextFieldValue : "Undefined Task",
             complete: false,
@@ -82,6 +96,7 @@ function App() {
         };
         currentState.push(createdTask);
         setToDoList(currentState);
+        filteredList.length && removeCompletedElements(currentState);
         handleDialogToggle()
     };
 
@@ -113,20 +128,22 @@ function App() {
                     <Header/>
                 </Grid>
                 <Grid item sm={2}/>
+                <Grid container alignItems={'center'}>
                 <Grid item sm={2}/>
-                <Grid item sm={4} xs={12} alignItems={'center'}>
+                <Grid item sm={4} xs={12}>
                     <IconButton onClick={handleDialogToggle}>
                         <Typography>ADD ELEMENT</Typography>
                         <AddCircleIcon fontSize={"large"} style={{color: green[500]}}/>
                     </IconButton>
                 </Grid>
-                <Grid item sm={4} xs={12} alignItems={'center'}>
-                    <IconButton onClick={removeCompletedElements}>
+                <Grid item sm={4} xs={12} >
+                    <IconButton onClick={() => removeCompletedElements(toDoList)}>
                         <Typography>FILTER OUT COMPLETED</Typography>
                         <RemoveCircleIcon fontSize={"large"} color={'secondary'}/>
                     </IconButton>
                 </Grid>
                 <Grid item sm={2}/>
+                </Grid>
                 <Grid item sm={8} xs={12}>
                     <Table>
                         <TableHead>
@@ -137,8 +154,9 @@ function App() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {toDoList.map(element =>
-                            <StyledTableRow element={element} toggleStatus={toggleStatus} handleDateChange={handleDateChange}/>)}
+                            {filteredList.length ? filteredList.map(element =>
+                                <StyledTableRow element={element} toggleStatus={toggleStatus} handleDateChange={handleDateChange} key={element.key}/>) : toDoList.map(element =>
+                            <StyledTableRow element={element} toggleStatus={toggleStatus} handleDateChange={handleDateChange} key={element.key}/>)}
                         </TableBody>
                     </Table>
                 </Grid>

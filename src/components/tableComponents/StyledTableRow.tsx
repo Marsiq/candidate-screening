@@ -9,13 +9,13 @@ import {
     Typography,
     withStyles
 } from "@material-ui/core";
-import {IDataObject} from "../../App";
+import {ITodoListObject} from "../../App";
 import ErrorIcon from "@material-ui/icons/Error"
 import CheckIcon from "@material-ui/icons/Check"
 import {green} from "@material-ui/core/colors";
 
 interface IStyledTableRowProps {
-    element: IDataObject,
+    element: ITodoListObject,
     toggleStatus: (data: number) => void
     handleDateChange: (elementId: number, payload: string) => void
 }
@@ -25,14 +25,6 @@ const StyledTableRow = (props: IStyledTableRowProps) => {
         createStyles({
             body: {
                 fontSize: 20,
-            },
-        }),
-    )(TableCell);
-
-    const StyledTableCell = withStyles((theme: Theme) =>
-        createStyles({
-            body: {
-                backgroundColor: props.element.complete ? theme.palette.success.light : theme.palette.error.light
             },
         }),
     )(TableCell);
