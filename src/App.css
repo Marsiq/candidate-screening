@@ -13,6 +13,32 @@
   color: white;
 }
 
+.add-button__icon {
+  color: #00B140
+}
+
+.dialog__title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dialog__title__text {
+  padding-top: 12px;
+  font-size: 20px;
+}
+
+.title__background {
+  background-color: #00414c
+}
+
+.title__text {
+  color: #dce6e6
+}
+
+.remove-button__icon {
+  color: #EF3340;
+}
+
 .table-cell__text {
   font-size: 20px !important;
 }
@@ -28,13 +54,16 @@
 }
 
 .table-head__table-row {
-  background: darkblue;
+  background: #00414c;
 }
 
 .table-head__table-cell {
-  text-shadow: white;
-  color: white !important;
+  color: #dce6e6 !important;
   font-size: 20px !important;
+}
+
+.icon-button {
+  margin: 20px !important;
 }
 
 .MuiFormLabel-root {
