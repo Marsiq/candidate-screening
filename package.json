@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts __test__",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -44,5 +44,10 @@
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
     "enzyme-adapter-react-16": "^1.15.6"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/index.js"
+    ]}
   }
-}

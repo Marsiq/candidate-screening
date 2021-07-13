@@ -1,23 +1,26 @@
 import './App.css';
-import Header from "./components/Header";
 import data from "./data.json";
 import React, {useState} from "react";
 import {
-    createStyles,
     Grid, IconButton,
     TableBody,
     TableCell,
     TableHead,
-    TableRow,
-    Theme, Typography,
-    withStyles
+    TableRow, TextField,
+    Typography,
 } from "@material-ui/core";
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 import Table from '@material-ui/core/Table';
 import {green} from "@material-ui/core/colors";
-import StyledTableRow from "./components/tableComponents/StyledTableRow"
-import CustomDialog from "./components/CustomDialog";
+import CheckIcon from "@material-ui/icons/Check";
+import ErrorIcon from "@material-ui/icons/Error"
+import MuiDialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
+import CloseIcon from "@material-ui/icons/Close";
+import MuiDialogContent from "@material-ui/core/DialogContent/DialogContent";
+import MuiDialogActions from "@material-ui/core/DialogActions/DialogActions";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog/Dialog";
 
 interface IDataObject {
     id: number,
@@ -33,16 +36,6 @@ export interface ITodoListObject {
     complete: boolean,
     endDate?: string
 }
-
-const StyledTableCell = withStyles((theme: Theme) =>
-    createStyles({
-        head: {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.common.white,
-            fontSize: 20
-        },
-    }),
-)(TableCell);
 
 const generateKeysForList = (data: Array<IDataObject>) :Array<ITodoListObject> => {
     const toDoList = new Array<ITodoListObject>();
@@ -108,15 +101,65 @@ function App() {
       setToDoList(currentState)
     };
 
+    const generateTableRow = (element: ITodoListObject) => {
+        return(
+        <TableRow id={'table-row-body'} key={element.id} hover={true}>
+            <TableCell id={"table-cell-task-name"} align={"center"} style={{fontSize: 20}}>{element.task}</TableCell>
+            <TableCell align={"center"}>
+                <TextField
+                    style={{fontSize: 20}}
+                    id="datetime-local"
+                    label="Due date"
+                    type="datetime-local"
+                    defaultValue={element.endDate}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    onBlur={event => handleDateChange(element.id, event.target.value)}
+                />
+            </TableCell>
+            <TableCell align={"center"}>
+                <IconButton id={"change-status-button"} onClick={()=>toggleStatus(element.id)}>
+                    <Typography style={{marginRight: 20, fontSize: 20}}>
+                        {element.complete? "COMPLETED" : "INCOMPLETED"}
+                    </Typography>
+                    {element.complete? <CheckIcon style={{color: green[500]}} fontSize={"large"}/> : <ErrorIcon  color={'secondary'} fontSize={"large"}/>}
+                </IconButton>
+            </TableCell>
+        </TableRow>
+        )
+    };
+
     return (
         <div className="App">
-            <CustomDialog
-                saveTask={saveTask}
-                handleInputTextFieldOnBlur={handleInputTextFieldOnBlur}
-                setInputDatePickerDialogValue={setInputDatePickerDialogValue}
-                isDialogOpen={isDialogOpen}
-                handleDialogToggle={handleDialogToggle}
-            />
+            <Dialog id={"add-task-dialog"} onClose={()=>{}} aria-labelledby="customized-dialog-title" open={isDialogOpen}>
+                <MuiDialogTitle disableTypography style={{display: "flex", justifyContent: "space-between"}}>
+                    <Typography id={"customized-dialog-title"} variant="h6" style={{paddingTop: 12, fontSize:20}}>Add ToDo item:</Typography>
+                    <IconButton id={"dialog-close-button"} aria-label="close" onClick={handleDialogToggle}>
+                        <CloseIcon />
+                    </IconButton>
+                </MuiDialogTitle>
+                <MuiDialogContent dividers>
+                    <TextField id={'task-name-text-field'} label="Name of task: " onBlur={(event)=>handleInputTextFieldOnBlur(event.target.value)}
+                               style={{fontSize: "auto", position: "absolute", width: 300}}/>
+                    <TextField
+                        style={{position: "relative", marginTop: 80, width: 300}}
+                        id="datetime-local-dialog"
+                        label="Due date"
+                        type="datetime-local"
+                        defaultValue={""}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        onBlur={event => setInputDatePickerDialogValue(event.target.value)}
+                    />
+                </MuiDialogContent>
+                <MuiDialogActions>
+                    <Button id={'save-task-button'} onClick={saveTask} color="primary">
+                        Insert task
+                    </Button>
+                </MuiDialogActions>
+            </Dialog>
             <Grid
                 container
                 direction="row"
@@ -125,20 +168,22 @@ function App() {
             >
                 <Grid item sm={2}/>
                 <Grid item sm={8} xs={12}>
-                    <Header/>
+                    <Typography id={"app-title"} variant={"h2"} component={"h3"}>
+                        TO DO LIST
+                    </Typography>
                 </Grid>
                 <Grid item sm={2}/>
                 <Grid container alignItems={'center'}>
                 <Grid item sm={2}/>
                 <Grid item sm={4} xs={12}>
-                    <IconButton onClick={handleDialogToggle}>
-                        <Typography>ADD ELEMENT</Typography>
+                    <IconButton id={'add-button'} onClick={handleDialogToggle}>
+                        <Typography className={'Icon-button-text'}>ADD ELEMENT</Typography>
                         <AddCircleIcon fontSize={"large"} style={{color: green[500]}}/>
                     </IconButton>
                 </Grid>
                 <Grid item sm={4} xs={12} >
-                    <IconButton onClick={() => removeCompletedElements(toDoList)}>
-                        <Typography>FILTER OUT COMPLETED</Typography>
+                    <IconButton id={'remove-button'} onClick={() => removeCompletedElements(toDoList)}>
+                        <Typography className={'Icon-button-text'}>FILTER OUT COMPLETED</Typography>
                         <RemoveCircleIcon fontSize={"large"} color={'secondary'}/>
                     </IconButton>
                 </Grid>
@@ -147,16 +192,15 @@ function App() {
                 <Grid item sm={8} xs={12}>
                     <Table>
                         <TableHead>
-                            <TableRow>
-                                <StyledTableCell align={"center"}>TODO LIST</StyledTableCell>
-                                <StyledTableCell align={"center"}>DUE DATE</StyledTableCell>
-                                <StyledTableCell align={"center"}>STATUS</StyledTableCell>
+                            <TableRow id={'table-row-head'} className={'Table-row-head'}>
+                                <TableCell className={'Table-cell-head'} align={"center"}>TODO LIST</TableCell>
+                                <TableCell className={'Table-cell-head'} align={"center"}>DUE DATE</TableCell>
+                                <TableCell className={'Table-cell-head'}align={"center"}>STATUS</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredList.length ? filteredList.map(element =>
-                                <StyledTableRow element={element} toggleStatus={toggleStatus} handleDateChange={handleDateChange} key={element.key}/>) : toDoList.map(element =>
-                            <StyledTableRow element={element} toggleStatus={toggleStatus} handleDateChange={handleDateChange} key={element.key}/>)}
+                            {filteredList.length ? filteredList.map(element => generateTableRow(element)) : toDoList.map(element =>
+                            generateTableRow(element))}
                         </TableBody>
                     </Table>
                 </Grid>

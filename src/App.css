@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -24,15 +13,25 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Icon-button-text {
+  font-size: 20px !important;
+  margin-right: 20px !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Table-row-head {
+  background: darkblue;
+}
+
+.Table-cell-head {
+  text-shadow: white;
+  color: white !important;
+  font-size: 20px !important;
+}
+
+.MuiFormLabel-root {
+  font-size: 20px !important;
+}
+
+.MuiInputBase-input {
+  font-size: 20px !important;
 }
