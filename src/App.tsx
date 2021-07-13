@@ -190,7 +190,7 @@ function App() {
                 <Grid item sm={2}/>
                 </Grid>
                 <Grid item sm={8} xs={12}>
-                    <Table>
+                    <Table id={'task-table'}>
                         <TableHead>
                             <TableRow id={'table-row-head'} className={'table-head__table-row'}>
                                 <TableCell className={'table-head__table-cell'} align={"center"}>TODO LIST</TableCell>

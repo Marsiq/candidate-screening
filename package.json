@@ -19,8 +19,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts __test__",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "tctest": "testcafe chrome tests/testcafe.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -43,11 +44,13 @@
   "devDependencies": {
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
-    "enzyme-adapter-react-16": "^1.15.6"
+    "enzyme-adapter-react-16": "^1.15.6",
+    "testcafe": "^1.15.0"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/index.js"
-    ]}
+    ]
   }
+}
