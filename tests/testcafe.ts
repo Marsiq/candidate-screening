@@ -34,8 +34,8 @@ test('Adding task when list is filtered', async t => {
 });
 
 test('Changing task status', async t => {
-    const firstStatus = await Selector('.status-button__text').nth(0);
-   await t.expect(firstStatus.innerText).eql("COMPLETED")
-    .click(firstStatus)
-    .expect(firstStatus.innerText).eql("INCOMPLETED")
+  const firstStatus = await Selector('.status-button__text').nth(0);
+  await t.expect(firstStatus.innerText).eql("COMPLETED")
+  .click(firstStatus)
+  .expect(firstStatus.innerText).eql("INCOMPLETED")
 });
