@@ -31,4 +31,11 @@ test('Adding task when list is filtered', async t => {
   const tableRowWithNewTaskExist = await Selector('#table-cell-task-name').withText('testTask').exists;
   await t.expect(completedTaskExist).notOk()
   .expect(tableRowWithNewTaskExist).ok();
-})
+});
+
+test('Changing task status', async t => {
+    const firstStatus = await Selector('.status-button__text').nth(0);
+   await t.expect(firstStatus.innerText).eql("COMPLETED")
+    .click(firstStatus)
+    .expect(firstStatus.innerText).eql("INCOMPLETED")
+});
