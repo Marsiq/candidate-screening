@@ -17,8 +17,18 @@ test('Adding task test', async t => {
 });
 
 test('Filtering list test', async t => {
-    await t.debug().click('#remove-button');
+    await t.click('#remove-button');
     const completedTaskExist = await Selector('.status-button__text').withExactText("COMPLETED").exists;
-    console.log(completedTaskExist);
     await t.expect(completedTaskExist).notOk()
 });
+
+test('Adding task when list is filtered', async t =>{
+    await t.click('#remove-button')
+        .click('#add-button')
+        .typeText(Selector('#task-name-text-field'), 'testTask')
+        .click('#save-task-button');
+    const completedTaskExist = await Selector('.status-button__text').withExactText("COMPLETED").exists;
+    const tableRowWithNewTaskExist = await Selector('#table-cell-task-name').withText('testTask').exists;
+    await t.expect(completedTaskExist).notOk()
+        .expect(tableRowWithNewTaskExist).ok();
+})
