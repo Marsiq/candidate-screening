@@ -104,10 +104,10 @@ function App() {
     const generateTableRow = (element: ITodoListObject) => {
         return(
         <TableRow id={'table-row-body'} key={element.id} hover={true}>
-            <TableCell id={"table-cell-task-name"} align={"center"} style={{fontSize: 20}}>{element.task}</TableCell>
+            <TableCell id={"table-cell-task-name"} align={"center"} className={"table-cell__text"}>{element.task}</TableCell>
             <TableCell align={"center"}>
                 <TextField
-                    style={{fontSize: 20}}
+                    className={"table-cell__text"}
                     id="datetime-local"
                     label="Due date"
                     type="datetime-local"
@@ -120,7 +120,7 @@ function App() {
             </TableCell>
             <TableCell align={"center"}>
                 <IconButton id={"change-status-button"} onClick={()=>toggleStatus(element.id)}>
-                    <Typography style={{marginRight: 20, fontSize: 20}}>
+                    <Typography className={"status-button__text"}>
                         {element.complete? "COMPLETED" : "INCOMPLETED"}
                     </Typography>
                     {element.complete? <CheckIcon style={{color: green[500]}} fontSize={"large"}/> : <ErrorIcon  color={'secondary'} fontSize={"large"}/>}
@@ -177,13 +177,13 @@ function App() {
                 <Grid item sm={2}/>
                 <Grid item sm={4} xs={12}>
                     <IconButton id={'add-button'} onClick={handleDialogToggle}>
-                        <Typography className={'Icon-button-text'}>ADD ELEMENT</Typography>
+                        <Typography className={'icon-button__text'}>ADD ELEMENT</Typography>
                         <AddCircleIcon fontSize={"large"} style={{color: green[500]}}/>
                     </IconButton>
                 </Grid>
                 <Grid item sm={4} xs={12} >
                     <IconButton id={'remove-button'} onClick={() => removeCompletedElements(toDoList)}>
-                        <Typography className={'Icon-button-text'}>FILTER OUT COMPLETED</Typography>
+                        <Typography className={'icon-button__text'}>FILTER OUT COMPLETED</Typography>
                         <RemoveCircleIcon fontSize={"large"} color={'secondary'}/>
                     </IconButton>
                 </Grid>
@@ -192,10 +192,10 @@ function App() {
                 <Grid item sm={8} xs={12}>
                     <Table>
                         <TableHead>
-                            <TableRow id={'table-row-head'} className={'Table-row-head'}>
-                                <TableCell className={'Table-cell-head'} align={"center"}>TODO LIST</TableCell>
-                                <TableCell className={'Table-cell-head'} align={"center"}>DUE DATE</TableCell>
-                                <TableCell className={'Table-cell-head'}align={"center"}>STATUS</TableCell>
+                            <TableRow id={'table-row-head'} className={'table-head__table-row'}>
+                                <TableCell className={'table-head__table-cell'} align={"center"}>TODO LIST</TableCell>
+                                <TableCell className={'table-head__table-cell'} align={"center"}>DUE DATE</TableCell>
+                                <TableCell className={'table-head__table-cell'} align={"center"}>STATUS</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

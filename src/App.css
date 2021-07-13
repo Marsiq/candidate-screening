@@ -13,16 +13,25 @@
   color: white;
 }
 
-.Icon-button-text {
+.table-cell__text {
+  font-size: 20px !important;
+}
+
+.status-button__text {
+  margin-right: 20px !important;
+  font-size: 20px !important;
+}
+
+.icon-button__text {
   font-size: 20px !important;
   margin-right: 20px !important;
 }
 
-.Table-row-head {
+.table-head__table-row {
   background: darkblue;
 }
 
-.Table-cell-head {
+.table-head__table-cell {
   text-shadow: white;
   color: white !important;
   font-size: 20px !important;
