@@ -2,7 +2,6 @@ import React from 'react';
 import App from './App';
 import Enzyme, {shallow, mount, render} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import IconButton from "@material-ui/core/IconButton";
 
 Enzyme.configure({adapter: new Adapter()});
 
