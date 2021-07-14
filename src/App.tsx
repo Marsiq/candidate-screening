@@ -177,30 +177,28 @@ function App() {
             justifyContent="space-around"
             alignItems="center"
         >
-          <Grid item sm={2}/>
-          <Grid item sm={8} xs={12} className={'title__background'}>
+          <Grid item md={8} sm={12} xs={12} className={'title__background'}>
             <Typography id={"app-title"} variant={"h3"} component={"h3"} className={'title__text'}>
               TO DO LIST
             </Typography>
           </Grid>
-          <Grid item sm={2}/>
           <Grid container alignItems={'center'}>
-            <Grid item sm={2}/>
-            <Grid item sm={4} xs={12}>
+            <Grid item md={2}/>
+            <Grid item md={4} sm={6} xs={12}>
               <IconButton id={'add-button'} onClick={handleDialogToggle} className={"icon-button"}>
                 <Typography className={'icon-button__text'}>ADD ELEMENT</Typography>
                 <AddCircleIcon fontSize={"large"} className={'add-button__icon'}/>
               </IconButton>
             </Grid>
-            <Grid item sm={4} xs={12}>
+            <Grid item md={4} sm={6} xs={12}>
               <IconButton id={'remove-button'} onClick={() => removeCompletedElements(toDoList)} className={"icon-button"}>
                 <Typography className={'icon-button__text'}>FILTER OUT COMPLETED</Typography>
                 <RemoveCircleIcon fontSize={"large"} className={'remove-button__icon'}/>
               </IconButton>
             </Grid>
-            <Grid item sm={2}/>
+            <Grid item md={2}/>
           </Grid>
-          <Grid item sm={8} xs={12}>
+          <Grid item md={8} sm={12} xs={12}>
             <Table id={'task-table'}>
               <TableHead>
                 <TableRow id={'table-row-head'} className={'table-head__table-row'}>
